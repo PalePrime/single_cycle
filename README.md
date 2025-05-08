@@ -43,7 +43,7 @@ There is also a set of System Verilog files which can be used outside of the bro
 
 ## Next steps
 
-We will run a three-day summer school, essentially an expanded version of this workshop, June 10-12, 2025, at Lund University. We target to generate interest in Digital Chip design among prospective or first-year students. [Please sign up here](). 
+We will run a three-day summer school, essentially an expanded version of this workshop, June 10-12, 2025, at Lund University. We target to generate interest in Digital Chip design among prospective or first-year students. [Please sign up here](https://www.eit.lth.se/summerschool). 
 
 ## Additional Material
 
@@ -69,7 +69,7 @@ Our work in System level Chip design is conducted within the national Competence
 
 funded by
 
-[<img src="/assets/SSF_Logo.svg" alt="Logo for the Swedish Foundation for Strategic Research" width="200">](https://strategiska.se/en/)
+[<img src="/assets/SSF_Logo.svg" alt="Logo for the Swedish Foundation for Strategic Research" width="150">](https://strategiska.se/en/)
 
 Special credits to all open-source projects that underpins our on-line FPGA tool environment, primarily:
 
