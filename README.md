@@ -45,6 +45,8 @@ There is also a set of System Verilog files which can be used outside of the bro
 
 We will run a three-day summer school, essentially an expanded version of this workshop, June 10-12, 2025, at Lund University. We target to generate interest in Digital Chip design among prospective or first-year students. [Please sign up here](https://www.eit.lth.se/summerschool). 
 
+[![Logo for the Lund University summer school](/assets/Lund%20Summer%20School%204.png)](https://www.eit.lth.se/summerschool)
+
 ## Additional Material
 
 FPGA Board used, the [Lattice5 based ULX3S](https://radiona.org/ulx3s/) designed at the University of Zagreb
