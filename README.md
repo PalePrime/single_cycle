@@ -24,8 +24,6 @@ The background is summarized [in this presentation](/assets/RISC-V%20in%2090%20M
 
 ## Main Links used during the Summer School
 
-Note, at present our main tool environment is (fully) usable <em>only on Chrome or Chromium browsers</em>.
-
 Browser based [FPGA tool environment](https://summerschool.eit.lth.se/tools/) 
 
 RISC-V [ISA Summary](https://pages.hmc.edu/harris/ddca/ddcarv/DDCArv_AppB_Harris.pdf) from text book referenced below
@@ -33,6 +31,8 @@ RISC-V [ISA Summary](https://pages.hmc.edu/harris/ddca/ddcarv/DDCArv_AppB_Harris
 On-line [RISC-V Assembler](https://riscvasm.lucasteske.dev/) 
 
 On-line [RISC-V C Compiler](https://godbolt.org/)
+
+RISC-V [instruction encoder/decoder](https://luplab.gitlab.io/rvcodecjs/)
 
 Browser based [Computer Text Terminal](https://console.zacharyschneider.ca/) used to communicate with the completed computer design
 
@@ -72,11 +72,38 @@ There is also a set of System Verilog files which can be used outside of the bro
 
 ### FPGA tool environment
 
+#### Use Chrome!
+
+Note, at present our main tool environment is (fully) usable <em>only on Chrome or Chromium browsers</em>.
+
+#### Where are the files?
+
+Anything you "Save" or "Open" inside the tool environment is stored solely in your web browser's cache. It will be preserved unless you explicitly clear the cache or otherwise ask the browser to free up its storage.
+
+To permanently save something on your computer you need to "Export" it from the tool. Similarly, to use any ice-file, or other example information, in the tool you need to use "Import" or copy-paste of text. 
+
 #### First start
 
-At first start you will need to ...
+At first start you will need to select the proper FPGA board, use "ULX3S-85".
 
-#### Windows specific problem
+A major part of the tool is a port of [Icestudio](https://icestudio.io/) from its original form as an installed program to the web with everything running in the browser. Its basic functionality remains intact and you can access the original Icestudio documentation from the "Help" menu.
+
+Note: The "Verify" function is not available, use the simulator to analyze your System Verilog code.
+
+#### Simulation
+
+The original Icestudio does not have a simulator. In our tool you move from the Icestudio design view by pressing the cogwheel with an "S" inside, the one with a "B" behaves like the original and prepares the design for use in an FPGA.
+
+When moving back and forth between the tabs and after updates to files, please use the "Refresh" button on the simulator tab to make sure information is in sync.
+
+The simulator environment opens in a separate browser tab. So far documentation is lacking. But the basic steps are:
+
+1. Select the project saved from Icestudio, and you can access the files "main.sv" containing the complete System Verilog code and "main_tb.sv" containing a template test bench for your design.
+2. Edit the test bench by adding any changes to input signals that should occur during simulation. Don't forget to "Save" your changes.
+3. Run "Verilate" and check for any reported problems in your design. Then build the simulator using "Compile". Make sure to let it finnish, the last step says "linking" in the log. Finally, run "Simulate".
+4. Press the "Refresh" button and open the resulting wave.vcd file in the "Waveform" view. Select signals to view the simulation results.
+
+#### Windows specific issue
 
 For upload to FPGA to work under Windows you may need to update the driver Windows selects for the FPGA board. In case uploading doesn't work do the following:
 
