@@ -51,7 +51,7 @@ Also, not well verified/tested, no warranties whatsoever!
 
 ## How to Use the Material
 
-Any files named ???.ice represent a digital design in our FPGA tool environment. All of them are available directly in the tool under the "File->Examples" menu. Most of these designs are available both in a completed version and as template designs intended as a starting point for your own work. Files named RV_???.ice represent appropriate steps to complete the RISC-V processor. 
+Any files named ???.ice, located in the ice directory, represent a digital design in our FPGA tool environment. All of them are available directly in the tool under the "File->Examples" menu. Most of these designs are available both in a completed version and as template designs intended as a starting point for your own work. Files named RV_???.ice represent appropriate steps to complete the RISC-V processor. 
 
 During development we will primarily use a simple program in RISC-V assembly found in the file "p1.s", it can be pasted into the on-line assembler to produce machine code in hexadecimal notation. The hexadecimal code can in turn be copied and pasted into the design tool. At the final step of development we use program from the file "monitor.c" as to start-up our computer and will then be able to load and execute real programs on the running system.
 
@@ -63,8 +63,9 @@ The idea behind the step-wise refinement of the processor design is to develop s
 4. Implementing the processor registers in which all values, used or computed, are picked up or stored by almost all instructions.
 5. Implement most of the remaining instructions, effectively making the example program actually do something.
 6. Implement the instructions and mechanisms required for the program to read from and write to memory after which "p1.s" should perform exactly as intended.
-7. Wrapping up the final parts still missing to complete the RV32I instruction set.
-8. Adding input and output capabilities so that our computer can interact with the physical world around it, communicate with a user, and load programs on-the-fly.
+7. Wrapping up the parts still missing to finally complete the RV32I instruction set.
+8. Adding input and output capabilities so that our computer can interact with the buttons and leds on the FPGA board. Now, we can use "p2.s".
+9. Adding the capability to communicate with a user, and load programs on-the-fly. Now, we can finally compile and run real programs!
 
 There is also a set of System Verilog files which can be used outside of the browser based design environment if you install native versions of tools like Verilator and Yosys. These files represent the same design as the ice-files at step seven.
 
