@@ -44,14 +44,14 @@ int read_mem_w(int address) {
 
 void inner_put_c(char c) {
     while((read_io(3) & 0x40) == 0) {}
-    write_io(c, 1);
+    write_io(c, 2);
     write_io(0x40, 3);
     write_io(0, 3);
 }
 
 char get_c() {
     while((read_io(3) & 0x20) == 0) {}
-    char c = read_io(1);
+    char c = read_io(2);
     write_io(0x20, 3);
     write_io(0, 3);
     return c;
@@ -218,7 +218,7 @@ void command_m(struct buffer* cmd) {
     }
 }
 
-void command_f(struct buffer* cmd) {
+void command_p(struct buffer* cmd) {
     struct buffer line;
     glob_space(cmd, 1, 0);
     int address = read_hex(cmd,1,0);
@@ -248,6 +248,7 @@ void command_x(struct buffer* cmd) {
     int address = read_hex(cmd,1,0);
     glob_eol(cmd);
     if (cmd->error == BUF_OK) {
+        put_c('\n');
         fptr = (int (*)(int, int))address;
         int result = fptr(0, 0);
         put_hex(result, 1);
@@ -265,8 +266,8 @@ void command(struct buffer* cmd) {
         case 'm':
             command_m(cmd);
             break;
-        case 'f':
-            command_f(cmd);
+        case 'p':
+            command_p(cmd);
             break;
         case 'x':
             command_x(cmd);
