@@ -116,6 +116,12 @@ For upload to FPGA to work under Windows you may need to update the driver Windo
 
 ![Zadig Window image](/assets/Zadig.png)
 
+### Compiler Explorer
+
+Select "C" as the language and select the "RISC-V rv32gc clang 20.1.0" compiler.
+
+Put "-O1  -march=rv32i -mabi=ilp32 -fno-inline" in the compiler flag box.
+
 ## Additional Material
 
 Text book [Digital Design and Computer Architecture](https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3) by Harris & Harris
