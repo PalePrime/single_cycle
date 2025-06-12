@@ -116,6 +116,8 @@ For upload to FPGA to work under Windows you may need to update the driver Windo
 
 ![Zadig Window image](/assets/Zadig.png)
 
+To restore the drivers and make the USB connection on the FPGA board be usable as a terminal you need to restore the driver by re-installing the original which you can download from [the FTDI VCD driver homepage](https://ftdichip.com/drivers/vcp-drivers/) or directly [through this link](https://ftdichip.com/wp-content/uploads/2025/03/CDM2123620_Setup.zip).
+
 ### Compiler Explorer
 
 Select "C" as the language and select the "RISC-V rv32gc clang 20.1.0" compiler.
