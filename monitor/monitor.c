@@ -1,9 +1,17 @@
 asm (".globl _start; _start: lui sp, 0x8; j main");
 
-void* jmp_table[16];
+asm (".globl jmp_table; jmp_table: j write_io; j read_io");
+
+// void* jmp_table[16];
 
 const char *message = "\nWelcome!\n\n";
-const char *help_msg = "\nSorry, no help available...";
+const char *help_msg =  "\nCommands:\n"
+                        "h(elp)\n"
+                        "l(ed) xx          show xx to Leds\n"
+                        "i(nput)           print one word of Input\n"
+                        "m(emory) aaaa xx  print xx words of Memory from aaaa\n"
+                        "p(ut) aaaa        Put words of data into memory from aaaa until empty line\n"
+                        "x(ecute) aaaa     eXecute code at aaaa and print returned integer\n";
 const char *not_msg = "Not a command";
 const char *err_msg = "Incorrect";
 const char *prompt  = "> ";
@@ -21,6 +29,10 @@ struct buffer {
     char buf[BUF_MAX];
     int error;
 };
+
+const int xx = 0x00000008;
+typedef void (*write_io_t)(char out, int pos);
+write_io_t w_io = (write_io_t)xx;
 
 void write_io(char out, int pos) {
     volatile char *port = (char*)0x80000000;
@@ -289,6 +301,7 @@ void command(struct buffer* cmd) {
 
 int main() {
     struct buffer cmd;
+    w_io(0x55, 0);
     put_s(message);
     while(1) {
         put_s(prompt);
