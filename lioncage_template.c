@@ -13,8 +13,11 @@ int main() {
         int atG1      = (sensors    & 0b00000001) != 0;
         int atG2      = (sensors    & 0b00000010) != 0;
         int operation = 0;
-        if (atG1 && !wasAtG1 && !atG2) operation = 1;
-        if (!atG1 && wasAtG1 && !atG2) operation = -1;
+        // TODO: Check sensors (current and previous)
+        //       and increment/decrement as appropriate
+        //       by assigning 1 or -1 to operation
+        if ( /* change this */ 0) operation = 1;
+        if ( /* and this.   */ 0) operation = -1;
         // Now, do it!
         count   = count + operation;
         wasAtG1 = atG1;

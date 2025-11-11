@@ -1,8 +1,6 @@
 asm (".globl _start; _start: lui sp, 0x8; j main");
 
-asm (".globl jmp_table; jmp_table: j write_io; j read_io");
-
-// void* jmp_table[16];
+asm ("j write_io; j read_io; j putc; j getc; j puts");
 
 const char *message = "\nWelcome!\n\n";
 const char *help_msg =  "\nCommands:\n"
@@ -29,10 +27,6 @@ struct buffer {
     char buf[BUF_MAX];
     int error;
 };
-
-const int xx = 0x00000008;
-typedef void (*write_io_t)(char out, int pos);
-write_io_t w_io = (write_io_t)xx;
 
 void write_io(char out, int pos) {
     volatile char *port = (char*)0x80000000;
@@ -61,7 +55,7 @@ void inner_put_c(char c) {
     write_io(0, 3);
 }
 
-char get_c() {
+char getc() {
     while((read_io(3) & 0x20) == 0) {}
     char c = read_io(2);
     write_io(0x20, 3);
@@ -69,18 +63,18 @@ char get_c() {
     return c;
 }
 
-void put_c(char c) {
+void putc(char c) {
     if (c == '\n') {
         inner_put_c('\r');
     }
     inner_put_c(c);
 }
 
-void put_s(const char* s) {
+void puts(const char* s) {
     int i = 0;
     char tmp = s[0];
     while (tmp != 0) {
-        put_c(tmp);
+        putc(tmp);
         i++;
         tmp = s[i];
     }
@@ -90,8 +84,8 @@ void put_hex(int number, int size) {
     const char* digits = "0123456789ABCDEF";
     while(size > 0) {
         int byte = (number >> ((size - 1) << 3));
-        put_c(digits[(byte >> 4) & 0xf]);
-        put_c(digits[byte & 0xf]);
+        putc(digits[(byte >> 4) & 0xf]);
+        putc(digits[byte & 0xf]);
         size--;
     }
 }
@@ -101,8 +95,7 @@ void get_line(struct buffer* line) {
     line->end = 0;
     line->error = BUF_OK;
     while(1) {
-        char c = get_c();
-        // put_hex(c,1);
+        char c = getc();
         if (c == '\n' || c == '\r') {
             //put_c('\n');
             if (line->end == 0) {
@@ -110,7 +103,6 @@ void get_line(struct buffer* line) {
             }
             break;
         } else if (c >= ' ' && c < 128) {
-            //put_c(c);
             int pos = line->end;
             line->buf[pos] = c;
             if(pos + 1 >= BUF_MAX) {
@@ -121,7 +113,6 @@ void get_line(struct buffer* line) {
             }
         } else if (c == '\b' || c == 0x7f) {
             if (line->end > 0) {
-                //put_c(c); put_c(' '); put_c(c);
                 line->end = line->end - 1;
             }
         }
@@ -198,7 +189,7 @@ int read_hex(struct buffer* line, int count, int exact) {
 }
 
 void command_i() {
-    put_c('\n');
+    putc('\n');
     for (int i = 3; i>=0; i--) {
         put_hex(read_io(i), 1);    
     }
@@ -221,11 +212,11 @@ void command_m(struct buffer* cmd) {
     if (count>0) count--;
     glob_eol(cmd);
     if (cmd->error == BUF_OK) {
-        put_c('\n');
+        putc('\n');
         for (int i = 0; i <= count; i++) {
             put_hex(read_mem_w(address), 4);   
             address = address + 4; 
-            put_c('\n');
+            putc('\n');
         }
     }
 }
@@ -260,7 +251,7 @@ void command_x(struct buffer* cmd) {
     int address = read_hex(cmd,1,0);
     glob_eol(cmd);
     if (cmd->error == BUF_OK) {
-        put_c('\n');
+        putc('\n');
         fptr = (int (*)(int, int))address;
         int result = fptr(0, 0);
         put_hex(result, 1);
@@ -273,7 +264,7 @@ void command(struct buffer* cmd) {
         case 0:
             break;
         case 'h':
-            put_s(help_msg);
+            puts(help_msg);
             break;
         case 'm':
             command_m(cmd);
@@ -291,24 +282,24 @@ void command(struct buffer* cmd) {
             command_l(cmd);
             break;
         default:
-            put_s(not_msg);
+            puts(not_msg);
             break;
     }
     if (cmd->error == BUF_ERR) {
-        put_s(err_msg);
+        puts(err_msg);
     }
 }
 
 int main() {
     struct buffer cmd;
-    w_io(0x55, 0);
-    put_s(message);
+    write_io(0x55, 0);
+    puts(message);
     while(1) {
-        put_s(prompt);
+        puts(prompt);
         get_line(&cmd);
         if (cmd.error == BUF_OK) {
             command(&cmd);
         }
-        put_c('\n');
+        putc('\n');
     }
 }
